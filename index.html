@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Minimalist Reddit</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/dark.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='main.js'></script>
+</head>
+<body>
+    <div class="heading">
+        <h1>Minimalist Reddit Project</h1>
+        <p>by Ramin Eqbal</p>
+    </div>
+    <div class="content">
+        <div class="inputs">
+                Enter Subreddit name here: <input id="subredditName" value="programming" type="search">
+                <label for="sortType">SortBy:</label>
+                <select id="sortTypeInput" name="sortType">
+                    <option value="hot">Hot</option>
+                    <option value="top">Top</option>
+                    <option value="new">New</option>
+                    <option value="controversial">Controversial</option>
+                </select>
+                PostCount: <input id="postCount" value="20" type="number">
+                <input type="checkbox" id="updootsCheckBox" name="updootsCheckBox" checked>
+                <label for="updootsCheckBox">EnableUpdoots?</label>
+        </div>
+
+        <div class="posts">
+        </div>
+
+    </div>
+</body>
+</html>
