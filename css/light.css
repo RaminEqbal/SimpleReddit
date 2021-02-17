@@ -1,23 +1,23 @@
 body {
-    background-color: rgb(0, 31, 31);
-    color: white;
+    background-color: rgb(255, 227, 175);
+    color: rgb(0, 0, 0);
 }
 
 input, select {
-    background-color: rgb(0, 43, 43);
-    color:white;
-    border: 2px solid rgb(0, 94, 94);
+    background-color: rgb(231, 205, 157);
+    color:rgb(0, 0, 0);
+    border: 2px solid rgb(255, 207, 119);
     border-radius: 4px;
 }
 
 a {
-    color:rgb(67, 181, 189)
+    color:rgb(255, 127, 77)
 }
 
 
 
 a:visited {
-    color:rgb(0, 87, 82)
+    color:rgb(184, 104, 0);
 }
 
 .heading {
@@ -34,16 +34,16 @@ a:visited {
 }
 
 .singlePost {
-    background-color: rgb(0, 41, 41);
+    background-color: rgb(230, 198, 140);
     padding-top: 0.1vh;
     padding-bottom: 0.1vh;
-    border: solid 2px teal;
-    color: rgb(166, 255, 255);
+    border: solid 2px rgb(255, 127, 77);
+    color:rgb(61, 18, 0)
 }
 
 
 b {
-    color: rgb(0, 194, 129);
+    color: rgb(255, 127, 77);
 }
 
 #imageviewer {
@@ -70,16 +70,16 @@ b {
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #007562;
+    background: #c57f15;
   }
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: rgb(0, 99, 58);
+    background: #a56401;
   }
   
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background:  rgb(0, 131, 76);
+    background:  #e68a00;
   }
   
