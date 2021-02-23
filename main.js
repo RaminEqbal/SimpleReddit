@@ -247,9 +247,9 @@ function recursiveComment(htmlRoot,commentCollection) {
 
     for(comment in commentCollection){
         //Abort criteria
-        if(commentCollection[comment]['kind'] == "more" || commentCollection[comment]['data']['replies'] == "" ){
+        if(commentCollection[comment]['kind'] == "more" ){
             console.log("Returned")
-            return;
+            continue;
         }
         console.log("Index:" +comment)
 
@@ -278,7 +278,14 @@ function recursiveComment(htmlRoot,commentCollection) {
         
 
         //Creating Reply Collection
-        var replyCollection = comData['replies']['data']['children'];
+        var replyCollection;
+        if(commentCollection[comment]['data']['replies'] == ""){
+            console.log("No further replies")
+            replyCollection=undefined;
+        }
+        else {
+            replyCollection = comData['replies']['data']['children'];
+        }
         console.log("Reply Collection")
         console.log(replyCollection);
 
