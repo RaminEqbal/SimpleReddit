@@ -1,4 +1,4 @@
-A demo of simple reddit can be found <a target="_blank" href="https://reddit.ramineqbla.xyz/">here</a>
+A demo of simple reddit can be found <a target="_blank" href="https://reddit.ramineqbal.xyz/">here</a>
 <hr>
 <h1>Project Outlook for Minimalist Reddit</h1>
 
