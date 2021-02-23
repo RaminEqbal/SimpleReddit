@@ -384,6 +384,7 @@ function decodeHtml(html) {
 
 function hidePostView() {
     $(".postView").hide();
+    $(".postView").scrollTop(0);
     $("#postViewContent").empty();
 }
 
