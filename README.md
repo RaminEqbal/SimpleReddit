@@ -1,3 +1,5 @@
+A demo of simple reddit can be found <a target="_blank" href="https://reddit.ramineqbla.xyz/">
+<hr>
 <h1>Project Outlook for Minimalist Reddit</h1>
 
 USE:
@@ -14,12 +16,12 @@ With:
 
 DO:
 <ul>
-<li>Compelling User Interface </li>
-<li>Request Handling </li>
+<li>Compelling User Interface X</li>
+<li>Request Handling X</li>
 <li>Subreddit Favourites </li>
-<li>Light/Darkmode </li>
-<li>Endless Loading </li>
-<li>Save System </li>
+<li>Light/Darkmode X</li>
+<li>Endless Loading X</li>
+<li>Save System X</li>
 </ul>
 
 <h1>What is Simple Reddit</h1>
