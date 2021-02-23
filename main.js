@@ -120,7 +120,7 @@ async function writeToPosts(subreddit, sortType) {
     for(post in children){
         let curPost =children[post]['data'];
         const postData = {
-            name: curPost['name'],
+            name: curPost['id'],
             title: curPost['title'],
             permalink: curPost['permalink'],
             updoot: curPost['ups'],
@@ -165,15 +165,41 @@ function appendToPost(postData) {
  * @param {HTMLElement} element 
  */
 function renderPostView(element) {
+
+    //Display PostView Div and clear it
     $(".postView").show();
     $("#postViewContent").empty();
+
+    //Mark Post as visited
     const id=element.getAttribute("id");
     $("#"+id).attr("class","visitedPost")
+
+
     console.log(id);
+
+    //Load PostData from DataStructure
     const postData = loadedPosts.get(id);
     let embed = "";
 
-    if(postData.postType=="image"){
+
+    /**
+     * Load Comments
+     */
+    let commentsURL = "https://www.reddit.com/r/"+getSelectedSubreddit()+"/comments/"+id;
+    console.log("Fetching "+ commentsURL);
+    let commentsData = getJSON(commentsURL);
+    console.log(commentsData);
+
+
+
+    /**
+     * Handle embeds in the Post Render
+     * Supported Embeds
+     *      i.redd.it
+     *      Youtube
+     *      v.redd.it
+     */
+    if(postData.domain == "i.redd.it"){
         embed = "<img src='"+postData.url+"'>"
     }
     else if(postData.domain.startsWith("youtube")){
@@ -191,8 +217,15 @@ function renderPostView(element) {
     else{
         embed = `<a target="_blank" href='https://www.reddit.com${postData.permalink}'>to URL</a>`
     }
+
+
+    //Decode JSON Data to Displayable HTML
     let texthtml = decodeHtml(postData.texthtml);
-    texthtml = texthtml.slice(0,-1)
+
+
+    /**
+     * Component Definition in JSX
+     */
     let html = `
     <div>
         <h2>${postData.title}</h2>
@@ -202,12 +235,21 @@ function renderPostView(element) {
         <hr>
         "${texthtml}"
         <hr>
-        <h3>Comments</h3>
-        <p>To be implemented<p>
+        <div class="renderViewCommentsComponent">
+            <h3>Comments</h3>
+            <p>To be implemented<p>
+        </div>
     </div>
     `;
+
+    //Render the JSX
     $("#postViewContent").append(html);
 }
+
+
+
+
+
 
 
 
