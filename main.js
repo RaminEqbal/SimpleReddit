@@ -52,7 +52,6 @@ $(document).ready(function(){
      */
     $(document).on("keydown", event => {
         if(event.key !== "Escape") return; // Escape or q
-        console.log("Closing PostView")
         hidePostView();
         event.preventDefault(); // No need to `return false;`.
     });
@@ -94,7 +93,6 @@ $(document).ready(function(){
             if(lock==false){
                 lock=true;
                 console.log("Endless loading triggered");
-                console.log(lastPost);
                 writeToPosts(getSelectedSubreddit(),getSelectedSortMethod());
             }
         }
@@ -110,11 +108,7 @@ $(document).ready(function(){
  */
 async function writeToPosts(subreddit, sortType) {
     
-    console.log("Fetching JSON");
-    console.log("PostCount: " + getCountOfPosts());
     const data = await getJSON("https://www.reddit.com/r/"+subreddit+"/"+getSelectedSortMethod()+".json?limit="+getCountOfPosts()+"&after="+lastPost);
-    console.log(data);
-    console.log("Constructing Child List");
     const children = data['data']['children'];
     console.log(children)
     for(post in children){
@@ -164,7 +158,7 @@ function appendToPost(postData) {
  * Functional Component for rendering the PostView element
  * @param {HTMLElement} element 
  */
-function renderPostView(element) {
+async function renderPostView(element) {
 
     //Display PostView Div and clear it
     $(".postView").show();
@@ -182,13 +176,7 @@ function renderPostView(element) {
     let embed = "";
 
 
-    /**
-     * Load Comments
-     */
-    let commentsURL = "https://www.reddit.com/r/"+getSelectedSubreddit()+"/comments/"+id;
-    console.log("Fetching "+ commentsURL);
-    let commentsData = getJSON(commentsURL);
-    console.log(commentsData);
+   
 
 
 
@@ -199,12 +187,11 @@ function renderPostView(element) {
      *      Youtube
      *      v.redd.it
      */
-    if(postData.domain == "i.redd.it"){
-        embed = "<img src='"+postData.url+"'>"
+    if(postData.domain == "i.redd.it" || postData.domain == "i.imgur.com"){
+        embed = "<a target='_blank' href='"+postData.url+"' > <img class='center' src='"+postData.url+"'></a>"
     }
     else if(postData.domain.startsWith("youtube")){
         embed = decodeHtml(postData.mediaEmbed['content']);
-        console.log(embed)
     }
     else if(postData.domain == "v.redd.it"){
         embed = `
@@ -229,25 +216,94 @@ function renderPostView(element) {
     let html = `
     <div>
         <h2>${postData.title}</h2>
-        <hr>
-        ${embed}<br>
         <a target="_blank" href='https://www.reddit.com${postData.permalink}'>to Reddit</a>
         <hr>
-        "${texthtml}"
+        ${embed}<br>
+        ${texthtml}
         <hr>
         <div class="renderViewCommentsComponent">
-            <h3>Comments</h3>
-            <p>To be implemented<p>
+            <h2 id="commentsHeading">Comments [loading]</h3>
         </div>
     </div>
     `;
 
     //Render the JSX
     $("#postViewContent").append(html);
+
+
+     /**
+     * Load Comments
+     */
+    let commentsURL = "https://www.reddit.com/r/"+getSelectedSubreddit()+"/comments/"+id+".json?sort=top";
+    const commentsData = await getJSON(commentsURL);
+    const commentList = commentsData[1].data.children; // Index 1 is the comment list (index 0 is the selfpost)
+    //Loop through comments
+    recursiveComment(".renderViewCommentsComponent",commentList)
+
+    $("#commentsHeading").text("Comments");
 }
 
+function recursiveComment(htmlRoot,commentCollection) {
+
+    for(comment in commentCollection){
+        //Abort criteria
+        if(commentCollection[comment]['kind'] == "more" || commentCollection[comment]['data']['replies'] == "" ){
+            console.log("Returned")
+            return;
+        }
+        console.log("Index:" +comment)
 
 
+        //Creating collection of Data
+        const curCom = commentCollection[comment]['data'];
+        const comData = {
+            id: curCom['id'],
+            author: curCom['author'],
+            score: curCom['score'],
+            contentHTML: curCom['body_html'],
+            permalink: "https://www.reddit.com"+curCom['permalink'],
+            replies: curCom['replies']
+        }
+
+        let commentContentHTML = decodeHtml(comData.contentHTML)
+        let commentID = "comment_"+comData.id;
+
+
+
+        console.log("At comment: "+ comData.id);
+        console.log("Comment Collection")
+        console.log(commentCollection);
+
+
+        
+
+        //Creating Reply Collection
+        var replyCollection = comData['replies']['data']['children'];
+        console.log("Reply Collection")
+        console.log(replyCollection);
+
+       
+        
+        
+
+        let chtml = ` 
+            <div class="comment" id=${commentID}>
+            <div class="innerComment">
+                <h4>(${comData.score})[${comData.author}]</h4>
+                ${commentContentHTML}
+            </div>
+            </div>
+
+
+        `;
+
+        $(htmlRoot).append(chtml);
+        if(replyCollection != undefined){
+            recursiveComment("#"+commentID,replyCollection);
+        }
+        
+    }
+}
 
 
 
@@ -261,7 +317,6 @@ function renderPostView(element) {
  */
 function togglePostText(element){
     let state = element.parentNode.parentNode.getElementsByTagName('p')[1].style.display;
-    console.log(state);
     (state == "none") ? element.parentNode.parentNode.getElementsByTagName('p')[1].style.display = "block" : element.parentNode.parentNode.getElementsByTagName('p')[1].style.display = "none";
 }
 
