@@ -19,9 +19,6 @@ a {
     color:rgb(67, 181, 189)
 }
 
-div {
-    width: 100vw;
-}
 
 a:visited {
     color:rgb(0, 87, 82)
@@ -194,6 +191,32 @@ b {
   }
 
 
+
   .inDev {
       background-color: ivory;
+      color:black;
   }
+
+#favorites {
+    border: 3px solid teal;
+    background-color: rgb(0, 41, 41);
+    width: 30vw;
+    height: 20vh;
+    position: absolute;
+    top:0.5vh;
+    right:0.5vw;
+    overflow-y:auto;
+}
+
+.fav-entry {
+    padding-left: 1vw;
+}
+
+.fav-entry:hover {
+    background-color: rgb(0, 59, 59);
+}
+
+
+.toLoad {
+    width: 80%;
+}

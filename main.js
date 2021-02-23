@@ -9,7 +9,8 @@
      */
     var lastPost="",
     lock=false,
-    loadedPosts= new Map();
+    loadedPosts= new Map(),
+    favSubs = [];
 
 
 
@@ -26,6 +27,7 @@ $(document).ready(function(){
      */
     const lastSubreddit = localStorage.getItem('subreddit');
     const postCount = localStorage.getItem('postCount');
+    loadSubsFromStorage();
     const style = (localStorage.getItem('style') == null ? "css/dark.css" :localStorage.getItem('style'));
 
 
@@ -65,11 +67,7 @@ $(document).ready(function(){
      */
     $(".inputs").on("keyup", event => {
         if(event.key !== "Enter") return; // Use `.key` instead.
-        localStorage.setItem('subreddit',getSelectedSubreddit());
-        localStorage.setItem('postCount',getCountOfPosts())
-        $(".posts").empty();
-        lastPost="";
-        writeToPosts(getSelectedSubreddit(),getSelectedSortMethod()) // Things you want to do.
+        triggerLoad();
         event.preventDefault(); // No need to `return false;`.
     });
 
@@ -98,6 +96,20 @@ $(document).ready(function(){
         }
     });
 });
+
+
+function triggerLoad() {
+    localStorage.setItem('subreddit',getSelectedSubreddit());
+        localStorage.setItem('postCount',getCountOfPosts());
+        pushSub(getSelectedSubreddit());
+        saveSubsToStorage();
+        $(".posts").empty();
+        lastPost="";
+        writeToPosts(getSelectedSubreddit(),getSelectedSortMethod()) // Things you want to do.
+}
+
+
+
 
 
 /**
@@ -379,4 +391,64 @@ function decodeHtml(html) {
 function hidePostView() {
     $(".postView").hide();
     $("#postViewContent").empty();
+}
+
+
+
+function loadSubs() {
+    $("#favorites").empty();
+    for(sub in favSubs){
+        var toLoad = favSubs[sub];
+
+        let jsx =  ` 
+        <div style="display:block;" class="fav-entry">
+        <span class="toLoad" onclick='loadSubToInput("${toLoad}")'>${toLoad}</span>
+        <span style="margin-left: 4vw;" onclick='deleteSub("${toLoad}")'>X</span>
+        </div>
+        
+        `;
+        $("#favorites").append(jsx);
+
+    }
+}
+
+function saveSub(subName) {
+    favSubs = favSubs.filter(item => item !== subName)
+    favSubs.unshift(subName);
+    console.log(favSubs)
+}
+
+
+function pushSub(subName) {
+    console.log("execute pushSub")
+    saveSub(subName);
+    loadSubs();
+}
+
+
+function deleteSub(subName) {
+    favSubs = favSubs.filter(item => item !== subName);
+    saveSubsToStorage();
+    loadSubs();
+}
+
+
+function loadSubToInput(subName){
+    $("#subredditName").val(subName);
+    triggerLoad();
+}
+
+
+function saveSubsToStorage() {
+    localStorage.setItem("favSubs",JSON.stringify(favSubs));
+}
+
+function loadSubsFromStorage() {
+    favSubs = JSON.parse(localStorage.getItem("favSubs"));
+    if(favSubs == null){
+        favSubs = [];
+    }
+    saveSubsToStorage();
+    console.log(favSubs);
+    loadSubs();
 }
