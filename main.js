@@ -90,7 +90,6 @@ $(document).ready(function(){
         if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10){
             if(lock==false){
                 lock=true;
-                console.log("Endless loading triggered");
                 writeToPosts(getSelectedSubreddit(),getSelectedSortMethod());
             }
         }
@@ -122,7 +121,7 @@ async function writeToPosts(subreddit, sortType) {
     
     const data = await getJSON("https://www.reddit.com/r/"+subreddit+"/"+getSelectedSortMethod()+".json?limit="+getCountOfPosts()+"&after="+lastPost);
     const children = data['data']['children'];
-    console.log(children)
+    console.log(children);
     for(post in children){
         let curPost =children[post]['data'];
         const postData = {
@@ -181,8 +180,6 @@ async function renderPostView(element) {
     $("#"+id).attr("class","visitedPost")
 
 
-    console.log(id);
-
     //Load PostData from DataStructure
     const postData = loadedPosts.get(id);
     let embed = "";
@@ -198,13 +195,18 @@ async function renderPostView(element) {
      *      i.redd.it
      *      Youtube
      *      v.redd.it
+     *      Twitter
      */
     if(postData.domain == "i.redd.it" || postData.domain == "i.imgur.com"){
         embed = "<a target='_blank' href='"+postData.url+"' > <img class='center' src='"+postData.url+"'></a>"
     }
     else if(postData.domain.startsWith("youtube")){
         embed = decodeHtml(postData.mediaEmbed['content']);
-    }
+    }/*
+    else if(postData.domain == "twitter.com"){
+        const tweetReq = await getJSON("https://publish.twitter.com/oembed?url="+postData.url);
+        console.log(tweetReq);
+    }*/
     else if(postData.domain == "v.redd.it"){
         embed = `
         
@@ -260,11 +262,8 @@ function recursiveComment(htmlRoot,commentCollection) {
     for(comment in commentCollection){
         //Abort criteria
         if(commentCollection[comment]['kind'] == "more" ){
-            console.log("Returned")
             continue;
         }
-        console.log("Index:" +comment)
-
 
         //Creating collection of Data
         const curCom = commentCollection[comment]['data'];
@@ -282,9 +281,6 @@ function recursiveComment(htmlRoot,commentCollection) {
 
 
 
-        console.log("At comment: "+ comData.id);
-        console.log("Comment Collection")
-        console.log(commentCollection);
 
 
         
@@ -292,14 +288,12 @@ function recursiveComment(htmlRoot,commentCollection) {
         //Creating Reply Collection
         var replyCollection;
         if(commentCollection[comment]['data']['replies'] == ""){
-            console.log("No further replies")
             replyCollection=undefined;
         }
         else {
             replyCollection = comData['replies']['data']['children'];
         }
-        console.log("Reply Collection")
-        console.log(replyCollection);
+
 
        
         
@@ -415,12 +409,10 @@ function loadSubs() {
 function saveSub(subName) {
     favSubs = favSubs.filter(item => item !== subName)
     favSubs.unshift(subName);
-    console.log(favSubs)
 }
 
 
 function pushSub(subName) {
-    console.log("execute pushSub")
     saveSub(subName);
     loadSubs();
 }
@@ -449,6 +441,5 @@ function loadSubsFromStorage() {
         favSubs = [];
     }
     saveSubsToStorage();
-    console.log(favSubs);
     loadSubs();
 }
