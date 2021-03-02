@@ -7,10 +7,10 @@
 /**
      * Global Variables
      */
-    var lastPost="",
-    lock=false,
-    loadedPosts= new Map(),
-    favSubs = [];
+    var lastPost="", //Tracks the ID of the last post loaded by the API
+    lock=false, //Locks the trigger of endless loading function, used to prevent multiple API calls
+    loadedPosts= new Map(), //Map of the posts loaded by the API
+    favSubs = []; //List of favourite subs (by subName e.g. programming, programmerhumor, etc)
 
 
 
@@ -97,6 +97,16 @@ $(document).ready(function(){
 });
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * POST LIST BLOCK BEGIN
+ */
+
+
+
+
+
 function triggerLoad() {
     localStorage.setItem('subreddit',getSelectedSubreddit());
         localStorage.setItem('postCount',getCountOfPosts());
@@ -165,6 +175,23 @@ function appendToPost(postData) {
     </div>`
     $(".posts").append(html)
 }
+
+
+/**
+ * POST LIST BLOCK END
+ */
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+/**
+ * POST VIEW BLOCK BEGIN
+ */
+
+
 
 /**
  * Functional Component for rendering the PostView element
@@ -258,10 +285,17 @@ async function renderPostView(element) {
     $("#commentsHeading").text("Comments");
 }
 
+
+
+/**
+ * Writes the comments provided by the Reddit API to the CommentsView, given the hierarchy of the comments, in a recursive manner.
+ * @param {HTMLElement} htmlRoot The HTML Elements the next comment should be appended to
+ * @param {Array} commentCollection A List of the data collection of the comments provided by the Reddit API
+ */
 function recursiveComment(htmlRoot,commentCollection) {
 
     for(comment in commentCollection){
-        //Abort criteria
+        //Skip Post
         if(commentCollection[comment]['kind'] == "more" ){
             continue;
         }
@@ -320,8 +354,16 @@ function recursiveComment(htmlRoot,commentCollection) {
 }
 
 
+/**
+ * POST VIEW BLOCK END
+ */
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+/**
+ * RESPONSIVE ELEMENTS BLOCK BEGIN
+ */
 
 
 /**
@@ -347,23 +389,7 @@ async function getJSON(url) {
 
 
 
-function getSelectedSubreddit(){
-    return $("#subredditName").val();
-}
-function getSelectedSortMethod(){
-    return $("#sortTypeInput").val();
-}
-function getCountOfPosts(){
-    return $("#postCount").val();
-}
-function getStylesheet(){
-    return $("#pagestyle").attr("href");
-}
 
-
-function getUpDootCheckBox() {
-    return $("#updootsCheckBox").is(':checked')
-}
 
 
 /**
@@ -408,6 +434,20 @@ function loadSubs() {
     }
 }
 
+
+/**
+ * RESPONSIVE ELEMENTS BLOCK END
+ */
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+ /**
+ *  FAVORITES BLOCK BEGIN
+ */
+
+
+
 function saveSub(subName) {
     favSubs = favSubs.filter(item => item !== subName)
     favSubs.unshift(subName);
@@ -437,6 +477,9 @@ function saveSubsToStorage() {
     localStorage.setItem("favSubs",JSON.stringify(favSubs));
 }
 
+/**
+ * Reads the list of favorite Subs from the localStorage by transforming the string into JSON
+ */
 function loadSubsFromStorage() {
     favSubs = JSON.parse(localStorage.getItem("favSubs"));
     if(favSubs == null){
@@ -445,3 +488,38 @@ function loadSubsFromStorage() {
     saveSubsToStorage();
     loadSubs();
 }
+
+
+ /**
+ *  FAVORITES BLOCK END
+ */
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * GETTER BLOCK START
+ */
+
+function getSelectedSubreddit(){
+    return $("#subredditName").val();
+}
+function getSelectedSortMethod(){
+    return $("#sortTypeInput").val();
+}
+function getCountOfPosts(){
+    return $("#postCount").val();
+}
+function getStylesheet(){
+    return $("#pagestyle").attr("href");
+}
+
+
+function getUpDootCheckBox() {
+    return $("#updootsCheckBox").is(':checked')
+}
+
+
+/**
+ * GETTER BLOCK END
+ */
