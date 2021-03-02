@@ -1,6 +1,19 @@
+:root {
+    --text-color: white;
+    --bg-main: rgb(0, 43, 43);
+    --dark-bg: rgb(0, 22, 22);
+    --border-col:  rgb(0, 94, 94);
+    --link-col: rgb(67, 181, 189);
+    --link-col-visited: rgb(0, 87, 82);
+    --post-title-color: rgb(166, 255, 255);
+    --post-title-visited-color: rgb(0, 77, 77);
+}
+
+
+
 body {
-    background-color: rgb(0, 31, 31);
-    color: white;
+    background-color: var(--bg-main);
+    color: var(--text-color);
     margin:0;
     padding:0;
     width: 100vw;
@@ -9,19 +22,19 @@ body {
 }
 
 input, select, button {
-    background-color: rgb(0, 43, 43);
-    color:white;
-    border: 2px solid rgb(0, 94, 94);
+    background-color: var(--bg-main);
+    color: var(--text-color);
+    border: 2px solid var(--border-col);
     border-radius: 4px;
 }
 
 a {
-    color:rgb(67, 181, 189)
+    color: var(--link-col);
 }
 
 
 a:visited {
-    color:rgb(0, 87, 82)
+    color: var(--link-col-visited);
 }
 
 .heading {
@@ -36,7 +49,7 @@ a:visited {
     height: calc(100%);
     width: calc(100%);
     z-index: 99999;
-    background-color: rgb(0, 31, 31);
+    background-color: var(--bg-main);
     overflow-y:auto;
     overflow-x:hidden;
 }
@@ -50,6 +63,8 @@ a:visited {
     height: 80vmin;
     width: auto;
 }
+
+
 
 .postView p {
     padding-right: 5vw;
@@ -72,62 +87,42 @@ a:visited {
 }
 
 .singlePost {
-    background-color: rgb(0, 41, 41);
+    background-color: var(--bg-main);
     padding-top: 0.1vh;
     padding-bottom: 0.1vh;
-    border: solid 2px teal;
-    color: rgb(166, 255, 255);
+    border: solid 2px var(--border-col);
+    color: var(--post-title-color);
     width: 100vw;
 }
 
 .visitedPost {
-    background-color: rgb(0, 22, 22);
+    background-color: var(--dark-bg);
     padding-top: 0.1vh;
     padding-bottom: 0.1vh;
-    border: solid 2px teal;
-    color: rgb(0, 77, 77);
+    border: solid 2px var(--border-col);
+    color: var(--post-title-visited-color);
     width: 100vw;
 }
 
 
 .weakDivider {
-    border: 2px solid rgb(0, 95, 95);
+    border: 2px solid var(--border-col);
   }
   
 
 .comment {
     font-size: 4vh;
     padding-left: 2vw;
-    border-top: 2px solid teal;
+    border-top: 2px solid var(--border-col);
 }
 .innerComment {
-    border-left: 2px solid teal;
+    border-left: 2px solid var(--border-col);
 }
 
 .innerComment p {
     padding-left: 0;
     margin-left: 0;
 }
-
-
-b {
-    color: rgb(0, 194, 129);
-}
-
-#imageviewer {
-    opacity: 80%;
-    background-color: black;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: none;
-    z-index: 9999;
-    display:none;
-}
-
-
-
-
 
 
 
@@ -198,8 +193,8 @@ b {
   }
 
 #favorites {
-    border: 3px solid teal;
-    background-color: rgb(0, 41, 41);
+    border: 3px solid var(--border-col);
+    background-color: var(--bg-main);
     width: 30vw;
     height: 20vh;
     position: absolute;

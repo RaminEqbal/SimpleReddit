@@ -126,6 +126,7 @@ async function writeToPosts(subreddit, sortType) {
         let curPost =children[post]['data'];
         const postData = {
             name: curPost['id'],
+            nameid: curPost['name'],
             title: curPost['title'],
             permalink: curPost['permalink'],
             updoot: curPost['ups'],
@@ -137,7 +138,7 @@ async function writeToPosts(subreddit, sortType) {
             media: curPost['media'],
             mediaEmbed: curPost['media_embed']
         }
-        lastPost = postData.name;
+        lastPost = postData.nameid;
         loadedPosts.set(postData.name, postData);
         appendToPost(postData);
     }
