@@ -1,0 +1,8 @@
+.singlePost {
+    background-color: var(--bg-main);
+    padding-top: 0.1vh;
+    padding-bottom: 0.1vh;
+    border: solid 2px var(--border-col);
+    color: var(--post-title-color);
+    width: 100vw;
+}

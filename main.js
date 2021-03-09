@@ -83,6 +83,10 @@ $(document).ready(function(){
         swapStyleSheet($("#themeInput").val());
     })
 
+
+
+
+
     /**
      * Endless Loading
      */
@@ -137,6 +141,7 @@ async function writeToPosts(subreddit, sortType) {
         const postData = {
             name: curPost['id'],
             nameid: curPost['name'],
+            subreddit: curPost['subreddit'],
             title: curPost['title'],
             permalink: curPost['permalink'],
             updoot: curPost['ups'],
@@ -150,7 +155,14 @@ async function writeToPosts(subreddit, sortType) {
         }
         lastPost = postData.nameid;
         loadedPosts.set(postData.name, postData);
-        appendToPost(postData);
+        if(getScrollCheckBox()){
+            document.getElementById("postrules").setAttribute("href", "css/bigpost.css");
+            appendToPostScrolling(postData)
+        }
+        else {
+            document.getElementById("postrules").setAttribute("href", "css/smallpost.css");
+            appendToPost(postData);
+        }  
     }
     lock=false;
 
@@ -164,6 +176,7 @@ async function writeToPosts(subreddit, sortType) {
  * @param {Object} postData 
  */
 function appendToPost(postData) {
+    console.log("Smallpost");
     let updoots = (getUpDootCheckBox() ? "("+postData.updoot+") " :"");
     let html = `
     <div class='singlePost' id='${postData.name}' onclick='renderPostView(this)'>
@@ -175,6 +188,91 @@ function appendToPost(postData) {
     </div>`
     $(".posts").append(html)
 }
+
+
+
+
+
+/**
+ *  Function for rendering the Postlist in a Social Media Scrolling Format
+ * @param {Object} postData 
+ */
+function appendToPostScrolling(postData) {
+
+    console.log("BigPost");
+    let updoots = (getUpDootCheckBox() ? "("+postData.updoot+") " :"");
+    /**
+     * Component Definition in JSX
+     */
+      //Load PostData from DataStructure
+      let embed = "";
+  
+  
+     
+  
+  
+  
+      /**
+       * Handle embeds in the Post Render
+       * Supported Embeds
+       *      i.redd.it
+       *      Youtube
+       *      v.redd.it
+       *      Twitter
+       */
+      if(postData.domain == "i.redd.it" || postData.domain == "i.imgur.com"){
+          embed = "<img class='center' src='"+postData.url+"'>"
+      }
+      else if(postData.domain.startsWith("youtube")){
+          embed = decodeHtml(postData.mediaEmbed['content']);
+      }/*
+      else if(postData.domain == "twitter.com"){
+          const tweetReq = await getJSON("https://publish.twitter.com/oembed?url="+postData.url);
+          console.log(tweetReq);
+      }*/
+      else if(postData.domain == "v.redd.it"){
+          embed = `
+          
+          <iframe width="${postData.media['reddit_video']['width']}" height="${postData.media['reddit_video']['height']}" src="${postData.media['reddit_video']['fallback_url']}" allowfullscreen></iframe>
+          
+          
+          `
+      }
+      else{
+          embed = `<a target="_blank" href='${postData.url}'>to URL</a>`
+      }
+  
+  
+      //Decode JSON Data to Displayable HTML
+      let texthtml = decodeHtml(postData.texthtml);
+  
+  
+      /**
+       * Component Definition in JSX
+       */
+      let html = `
+
+
+      <div class='singlePost' id='${postData.name}' >
+      <div>
+          <h2 onclick='renderPostView(this.parentNode.parentNode)'>${updoots}${postData.title}</h2>
+          <small onclick='$("#subredditName").val("${postData.subreddit}");triggerLoad();'>@ ${postData.subreddit}</small> <br>
+          <a target="_blank" href='https://www.reddit.com${postData.permalink}'>to Reddit</a>
+          <hr>
+          ${embed}<br>
+          ${texthtml}
+      </div>
+      <p style="display:none">${postData.text}</p>
+  </div>`
+
+    $(".posts").append(html)
+}
+
+
+
+
+
+
 
 
 /**
@@ -517,6 +615,11 @@ function getStylesheet(){
 
 function getUpDootCheckBox() {
     return $("#updootsCheckBox").is(':checked')
+}
+
+
+function getScrollCheckBox() {
+    return $("#scrollingCheckBox").is(':checked')
 }
 
 
