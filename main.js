@@ -12,6 +12,8 @@
     loadedPosts= new Map(), //Map of the posts loaded by the API
     favSubs = []; //List of favourite subs (by subName e.g. programming, programmerhumor, etc)
 
+    const scrollingOffset = 500; //Trigger Range for Endless Scrolling
+
 
 
 
@@ -91,7 +93,7 @@ $(document).ready(function(){
      * Endless Loading
      */
     $(window).scroll(function(){
-        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10){
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() - scrollingOffset){
             if(lock==false){
                 lock=true;
                 writeToPosts(getSelectedSubreddit(),getSelectedSortMethod());
@@ -244,7 +246,13 @@ function appendToPostScrolling(postData) {
   
   
       //Decode JSON Data to Displayable HTML
-      let texthtml = decodeHtml(postData.texthtml);
+      if(postData != null){
+        var texthtml = decodeHtml(postData.texthtml).sliceHTML(0,700);
+      }
+      else {
+          var texthtml = "";
+      }
+      
   
   
       /**
@@ -260,9 +268,10 @@ function appendToPostScrolling(postData) {
           <a target="_blank" href='https://www.reddit.com${postData.permalink}'>to Reddit</a>
           <hr>
           ${embed}<br>
-          ${texthtml}
+          ${texthtml}<br>
+          <!-- TEXTHTML END -->
+          <button class="commentsButton" onclick='renderPostView(this.parentNode.parentNode)'>Full Post and Comments</button>
       </div>
-      <p style="display:none">${postData.text}</p>
   </div>`
 
     $(".posts").append(html)
@@ -626,3 +635,30 @@ function getScrollCheckBox() {
 /**
  * GETTER BLOCK END
  */
+
+
+
+ String.prototype.sliceHTML = function (start,end) {
+    var sliced = this.slice(start,end);
+    var lastTag="";
+    var curIndex=sliced.length;
+    if(curIndex==0) return "";
+    while(sliced.charAt(curIndex) != "<" && curIndex != 0){
+        console.log(curIndex+" "+  sliced.charAt(curIndex)+" != < computes: "+ sliced.charAt(curIndex) != "<");
+        curIndex -=1;
+    }
+    console.log("Terminated")
+    lastTag="><\/"+this.slice(curIndex,end).split(" ")[0].slice(1);
+    console.log(lastTag);
+    if(lastTag.charAt(lastTag.length-1)!=">"){
+        lastTag+=">";
+    }
+    for(var i=1;i<lastTag.length;i++){
+        if(lastTag.charAt(i)==">"){
+            lastTag = lastTag.slice(0,i+1);
+        }
+    }
+    console.log(lastTag);
+
+    return sliced+"\" "+lastTag+"</div>"+"...";
+ };

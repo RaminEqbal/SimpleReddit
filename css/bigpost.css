@@ -22,22 +22,41 @@
 
 
 
-.singlePost p {
+.singlePost p, .visitedPost p {
     padding-right: 5vw;
     padding-left: 5vw;
     width: 80%;
     font-size: 3vh;
 }
 
-.singlePost iframe {
+.singlePost iframe, .visitedPost iframe {
     width:100%;
     height: 80vh;
 }
 
 
-.singlePost img {
+.singlePost img, .visitedPost img  {
     height: 80vmin;
     width: auto;
     max-width: 100%;
 
+}
+
+
+.commentsButton {
+    width: 20%;
+    border-radius: 20px;
+    height: 12vh;
+    display:block;
+    margin: 0 auto;
+    margin-bottom: 8vh;
+    padding:1vh;
+    font-size: 3vh;
+    text-decoration: none;
+    padding: 2vh;
+    transition: 0.3s;
+}
+
+.commentsButton:hover{
+    background-color: var(--link-col-visited);
 }
