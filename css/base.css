@@ -76,16 +76,6 @@ a:visited {
 
 
 
-.visitedPost {
-    background-color: var(--dark-bg);
-    padding-top: 0.1vh;
-    padding-bottom: 0.1vh;
-    border: solid 2px var(--border-col);
-    color: var(--post-title-visited-color);
-    width: 100vw;
-}
-
-
 .weakDivider {
     border: 2px solid var(--border-col);
   }

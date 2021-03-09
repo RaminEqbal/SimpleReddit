@@ -1,5 +1,4 @@
-.singlePost {
-    background-color: var(--bg-main);
+.singlePost, .visitedPost {
     padding-top: 0.1vh;
     padding-bottom: 0.1vh;
     padding-left: 2.5vw;
@@ -8,12 +7,25 @@
     color: var(--text-color);
     width: 70vw;
     margin: 0 auto;
+    margin-bottom: 5vh;
 }
+
+
+.singlePost {
+    background-color: var(--bg-main);
+    
+}
+
+.visitedPost {
+    background-color: var(--dark-bg);
+}
+
+
 
 .singlePost p {
     padding-right: 5vw;
     padding-left: 5vw;
-    width: 60%;
+    width: 80%;
     font-size: 3vh;
 }
 

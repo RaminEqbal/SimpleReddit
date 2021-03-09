@@ -221,7 +221,7 @@ function appendToPostScrolling(postData) {
        *      Twitter
        */
       if(postData.domain == "i.redd.it" || postData.domain == "i.imgur.com"){
-          embed = "<img class='center' src='"+postData.url+"'>"
+          embed = "<a target='_blank' href='"+postData.url+"'><img class='center' src='"+postData.url+"'></a>"
       }
       else if(postData.domain.startsWith("youtube")){
           embed = decodeHtml(postData.mediaEmbed['content']);
