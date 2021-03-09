@@ -1,0 +1,21 @@
+:root {
+    --text-color: black;
+    --bg-main: rgb(224, 224, 224);
+    --dark-bg: rgb(199, 199, 199);
+    --border-col:  rgb(0, 0, 0);
+    --link-col: rgb(32, 50, 51);
+    --link-col-visited: rgb(23, 65, 62);
+    --post-title-color: rgb(0, 0, 0);
+    --post-title-visited-color: rgb(170, 170, 170);
+    --hover-color: rgb(0, 94, 94);
+
+
+
+    --scrollbar-primary: rgb(255, 255, 255);
+    --scrollbar-secondary: #000000;
+    --scrollbar-hover: rgb(155, 155, 155);
+
+}
+
+
+
