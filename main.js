@@ -61,6 +61,46 @@ $(document).ready(function(){
     });
 
 
+    // Init a timeout variable to be used below
+    let subRedditBarTimeOut = null;
+
+    
+
+
+            // $( "#subredditName" ).autocomplete({
+            //     source: async () => {
+            //         suggestions = await getJSON("https://www.reddit.com/subreddits/search.json?q="+ $("#subredditName").val())
+            //         rawSuggestions = []
+            //         for(var i=0;i<=10;i++){
+            //             rawSuggestions.push(suggestions["data"]["children"][i]["data"]["display_name"])
+            //         }
+            //         console.log(rawSuggestions)
+            //         return rawSuggestions;
+            //     }
+            // })
+
+
+            $( "#subredditName" ).autocomplete({
+                source: function( request, response ) {
+                  $.ajax( {
+                    url: "https://www.reddit.com/subreddits/search.json?q="+ $("#subredditName").val(),
+                    dataType: "json",
+                    type: "GET",
+                    data: {
+                      term: request.term
+                    },
+                    success: async function( data ) {
+                        rawSuggestions = []
+                        for(var i=0;i < data["data"]["children"].length;i++){
+                            rawSuggestions.push(data["data"]["children"][i]["data"]["display_name"])
+                        }
+                        console.log(rawSuggestions)
+                        response(rawSuggestions)
+                    }
+                  } );
+                }})
+
+
 
 
 
@@ -134,10 +174,11 @@ function triggerLoad() {
  * @param {String} sortType 
  */
 async function writeToPosts(subreddit, sortType) {
-    
-    const data = await getJSON("https://www.reddit.com/r/"+subreddit+"/"+getSelectedSortMethod()+".json?limit="+getCountOfPosts()+"&after="+lastPost);
+    loadedPosts.clear();
+    try {
+        const data = await getJSON("https://www.reddit.com/r/"+subreddit+"/"+getSelectedSortMethod()+".json?limit="+getCountOfPosts()+"&after="+lastPost);
     const children = data['data']['children'];
-    console.log(children);
+    //console.log(children);
     for(post in children){
         let curPost =children[post]['data'];
         const postData = {
@@ -168,6 +209,11 @@ async function writeToPosts(subreddit, sortType) {
     }
     lock=false;
 
+    }
+    catch(e){
+        console.error("Post Data could not be received")
+    }
+    
     
 }
 
@@ -178,7 +224,6 @@ async function writeToPosts(subreddit, sortType) {
  * @param {Object} postData 
  */
 function appendToPost(postData) {
-    console.log("Smallpost");
     let updoots = (getUpDootCheckBox() ? "("+postData.updoot+") " :"");
     let html = `
     <div class='singlePost' id='${postData.name}' onclick='renderPostView(this)'>
@@ -201,7 +246,6 @@ function appendToPost(postData) {
  */
 function appendToPostScrolling(postData) {
 
-    console.log("BigPost");
     let updoots = (getUpDootCheckBox() ? "("+postData.updoot+") " :"");
     /**
      * Component Definition in JSX
@@ -230,7 +274,6 @@ function appendToPostScrolling(postData) {
       }/*
       else if(postData.domain == "twitter.com"){
           const tweetReq = await getJSON("https://publish.twitter.com/oembed?url="+postData.url);
-          console.log(tweetReq);
       }*/
       else if(postData.domain == "v.redd.it"){
           embed = `
@@ -268,8 +311,7 @@ function appendToPostScrolling(postData) {
           <a target="_blank" href='https://www.reddit.com${postData.permalink}'>to Reddit</a>
           <hr>
           ${embed}<br>
-          ${texthtml}<br>
-          <!-- TEXTHTML END -->
+          <!-- TEXTHTML DISCONTINUED FOR NOW -->
           <button class="commentsButton" onclick='renderPostView(this.parentNode.parentNode)'>Full Post and Comments</button>
       </div>
   </div>`
@@ -340,7 +382,6 @@ async function renderPostView(element) {
     }/*
     else if(postData.domain == "twitter.com"){
         const tweetReq = await getJSON("https://publish.twitter.com/oembed?url="+postData.url);
-        console.log(tweetReq);
     }*/
     else if(postData.domain == "v.redd.it"){
         embed = `
@@ -644,12 +685,9 @@ function getScrollCheckBox() {
     var curIndex=sliced.length;
     if(curIndex==0) return "";
     while(sliced.charAt(curIndex) != "<" && curIndex != 0){
-        console.log(curIndex+" "+  sliced.charAt(curIndex)+" != < computes: "+ sliced.charAt(curIndex) != "<");
         curIndex -=1;
     }
-    console.log("Terminated")
     lastTag="><\/"+this.slice(curIndex,end).split(" ")[0].slice(1);
-    console.log(lastTag);
     if(lastTag.charAt(lastTag.length-1)!=">"){
         lastTag+=">";
     }
@@ -658,7 +696,6 @@ function getScrollCheckBox() {
             lastTag = lastTag.slice(0,i+1);
         }
     }
-    console.log(lastTag);
 
     return sliced+"\" "+lastTag+"</div>"+"...";
  };

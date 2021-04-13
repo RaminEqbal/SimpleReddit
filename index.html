@@ -9,6 +9,7 @@
     <link id="baserules" rel='stylesheet' type='text/css' media='screen' href='css/base.css'>
     <link id="postrules" rel='stylesheet' type='text/css' media='screen' href='css/smallpost.css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src='main.js'></script>
 </head>
 <body>
@@ -36,9 +37,11 @@
     </div>
 
     <div class="inputs">
+        <div class="ui-widget">
             <label for="subredditName">Subreddit Name:</label>
-                <input id="subredditName" name="subredditName" value="programming" type="search">
-                <br>
+            <input autocomplete="off" id="subredditName" name="subredditName" value="programming" type="search">
+        </div>
+
                 <label for="sortType">SortBy:</label>
                 <select id="sortTypeInput" name="sortType">
                     <option value="hot">Hot</option>
