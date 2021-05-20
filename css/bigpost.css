@@ -36,8 +36,9 @@
 
 
 .singlePost img, .visitedPost img  {
-    height: 80vmin;
     width: auto;
+    height: auto;
+    max-height: 80vh;
     max-width: 100%;
 
 }

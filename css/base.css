@@ -48,7 +48,6 @@ a:visited {
 }
 
 .postView img {
-    height: 80vmin;
     width: auto;
 }
 
@@ -70,9 +69,6 @@ a:visited {
     padding-bottom: 1vh;
 }
 
-.inputs * {
-    margin-bottom: 1vh;
-}
 
 
 .ui-autocomplete {
@@ -220,7 +216,19 @@ a:visited {
     top:0vh;
     right:0vw;
     overflow-y:auto;
+    transition: 0.5s;
 }
+
+
+#favorites:hover {
+    height: 50vh;
+    border-bottom:  3px solid var(--border-col);
+    border-bottom-left-radius: 10px;
+}
+
+
+
+
 
 .fav-entry {
     padding-left: 1vw;
@@ -236,6 +244,11 @@ a:visited {
 }
 
 
+.centered {
+    width: 90%;
+     margin:auto;
+}
+
 
 
 .topview {
@@ -249,4 +262,18 @@ a:visited {
 
 .posts {
     padding-top: 200px;
+}
+
+
+#scrollTopBtn {
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+
+#scrollTopBtn:hover {
+
+    background-color: var(--hover-color);
 }

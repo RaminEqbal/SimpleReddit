@@ -179,7 +179,7 @@ async function writeToPosts(subreddit, sortType) {
     try {
         const data = await getJSON("https://www.reddit.com/r/"+subreddit+"/"+getSelectedSortMethod()+".json?limit="+getCountOfPosts()+"&after="+lastPost);
     const children = data['data']['children'];
-    //console.log(children);
+    console.log(children);
     for(post in children){
         let curPost =children[post]['data'];
         const postData = {
@@ -680,6 +680,15 @@ function getScrollCheckBox() {
 /**
  * GETTER BLOCK END
  */
+
+
+
+ function scrollToTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+
+
 
 
 
