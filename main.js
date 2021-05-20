@@ -47,8 +47,8 @@ $(document).ready(function(){
     swapStyleSheet(style);
 
     //Initial Post Request on Page load
-    writeToPosts(getSelectedSubreddit(),getSelectedSortMethod());
-
+    // writeToPosts(getSelectedSubreddit(),getSelectedSortMethod());
+    triggerLoad();
 
 
      /**
@@ -83,7 +83,7 @@ $(document).ready(function(){
             $( "#subredditName" ).autocomplete({
                 source: function( request, response ) {
                   $.ajax( {
-                    url: "https://www.reddit.com/subreddits/search.json?q="+ $("#subredditName").val(),
+                    url: "https://www.reddit.com/subreddits/search.json?q="+ getSelectedSubreddit(),
                     dataType: "json",
                     type: "GET",
                     data: {
@@ -160,6 +160,7 @@ function triggerLoad() {
         saveSubsToStorage();
         $(".posts").empty();
         lastPost="";
+        window.document.title = "SR: "+ getSelectedSubreddit();
         writeToPosts(getSelectedSubreddit(),getSelectedSortMethod()) // Things you want to do.
 }
 
@@ -656,7 +657,8 @@ function getSelectedSortMethod(){
     return $("#sortTypeInput").val();
 }
 function getCountOfPosts(){
-    return $("#postCount").val();
+    // return $("#postCount").val();
+    return 10;
 }
 function getStylesheet(){
     return $("#pagestyle").attr("href");
@@ -664,12 +666,14 @@ function getStylesheet(){
 
 
 function getUpDootCheckBox() {
-    return $("#updootsCheckBox").is(':checked')
+    // return $("#updootsCheckBox").is(':checked')
+    return true;
 }
 
 
 function getScrollCheckBox() {
-    return $("#scrollingCheckBox").is(':checked')
+    // return $("#scrollingCheckBox").is(':checked')
+    return true;
 }
 
 

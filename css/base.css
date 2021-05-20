@@ -67,7 +67,7 @@ a:visited {
 }
 
 .inputs {
-    padding-bottom: 3vh;
+    padding-bottom: 1vh;
 }
 
 .inputs * {
@@ -212,13 +212,13 @@ a:visited {
   }
 
 #favorites {
-    border: 3px solid var(--border-col);
+    border-left: 3px solid var(--border-col);
     background-color: var(--bg-main);
     width: 30vw;
-    height: 20vh;
+    height: 100%;
     position: absolute;
-    top:0.5vh;
-    right:0.5vw;
+    top:0vh;
+    right:0vw;
     overflow-y:auto;
 }
 
@@ -233,4 +233,20 @@ a:visited {
 
 .toLoad {
     width: 80%;
+}
+
+
+
+
+.topview {
+    position: fixed;
+    width:100%;
+    background-color: var(--bg-main);
+    border: 2px solid var(--border-col);
+    border-top: none;
+}
+
+
+.posts {
+    padding-top: 200px;
 }

@@ -28,37 +28,35 @@
                 <option value="css/light.css">Light</option>
                 <option value="css/black.css">Black</option>
             </select>
+            <div class="inputs">
+                <div class="ui-widget">
+                    <label for="subredditName">Subreddit Name:</label>
+                    <input autocomplete="off" id="subredditName" name="subredditName" value="programming" type="search">
+                    <select id="sortTypeInput" name="sortType">
+                            <option value="hot">Hot</option>
+                            <option value="top">Top</option>
+                            <option value="new">New</option>
+                            <option value="controversial">Controversial</option>
+                        </select>
+                        <!-- <input style="display: hidden;" type="checkbox" id="updootsCheckBox" name="updootsCheckBox" checked>
+                        <label for="updootsCheckBox">EnableUpdoots?</label>
+                        <input style="display: hidden;" type="checkbox" id="scrollingCheckBox" name="scrollingCheckBox" checked>
+                        <label for="scrollingCheckBox">Display Posts directly?</label> -->
+                </div>
+                        
+            </div>
+            <div id="favorites">
+                <div class="fav-entry">Programming</div>
+            </div>
         </div>
+        
     </div>
 
     
-    <div class="heading">
-        <h1>Simple Reddit</h1>
-    </div>
 
-    <div class="inputs">
-        <div class="ui-widget">
-            <label for="subredditName">Subreddit Name:</label>
-            <input autocomplete="off" id="subredditName" name="subredditName" value="programming" type="search">
-        </div>
 
-                <label for="sortType">SortBy:</label>
-                <select id="sortTypeInput" name="sortType">
-                    <option value="hot">Hot</option>
-                    <option value="top">Top</option>
-                    <option value="new">New</option>
-                    <option value="controversial">Controversial</option>
-                </select><br>
-                PostCount: <input id="postCount" value="20" type="number"><br>
-                <input type="checkbox" id="updootsCheckBox" name="updootsCheckBox" checked>
-                <label for="updootsCheckBox">EnableUpdoots?</label>
-                <input type="checkbox" id="scrollingCheckBox" name="scrollingCheckBox" checked>
-                <label for="scrollingCheckBox">Display Posts directly?</label>
-    </div>
-
-    <div id="favorites">
-        <div class="fav-entry">Programming</div>
-    </div>
+   
+    
 
 
 
